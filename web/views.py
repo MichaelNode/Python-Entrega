@@ -94,14 +94,16 @@ class postCreationView(CreateView):
 
     @method_decorator(login_required)
     def post(self, request):
-
-        blog_id = Blog.objects.get(blog_id=2)
-        new_post = Post(author=request.user,blog_id=blog_id)
-        form = PostForm(request.POST, request.FILES, instance=new_post)
-        if form.is_valid():
-            new_post = form.save()
-            messages.success(request, 'Ad {0} created successfully!'.format(new_post.title))
-            welcome_url = request.GET.get('next', 'home')
-            return redirect(welcome_url)
-        return render(request, 'post/post_form.html', {'form': form})
-
+        try:
+            blog_id = Blog.objects.get(author=request.user)
+            new_post = Post(author=request.user, blog_id=blog_id)
+            form = PostForm(request.POST, request.FILES, instance=new_post)
+            if form.is_valid():
+                new_post = form.save()
+                messages.success(request, 'Ad {0} created successfully!'.format(new_post.title))
+                welcome_url = request.GET.get('next', 'home')
+                return redirect(welcome_url)
+            return render(request, 'post/post_form.html', {'form': form})
+        except Blog.DoesNotExist:
+            print('el usuario debe estar asociado a un blog')
+            return render(request, 'post/post_form.html')

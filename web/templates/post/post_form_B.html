@@ -1,9 +1,0 @@
-{% extends "master.html" %}
-{% block content_site %}
-{% load staticfiles %}
-<form method="post"  novalidate enctype="multipart/form-data">
-    {% csrf_token %}
-   {{ form.as_p }}
-  <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-{% endblock %}
