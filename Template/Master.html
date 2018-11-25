@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+      {% load staticfiles %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Stylish Portfolio - Start Bootstrap Template</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{% static 'assets/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="{% static 'assets/vendor/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet">
+     <!-- FontAwesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <link href="{% static 'assets/css/stylish-portfolio.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'user/login/css/login.css' %}" rel="stylesheet">
+    <link href="{% static 'post/post-details/post-details.css' %}" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+    <!-- Navigation -->
+    <a class="menu-toggle rounded" href="#">
+      <i class="fas fa-bars"></i>
+    </a>
+    <nav id="sidebar-wrapper">
+      <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+          <a class="js-scroll-trigger" href="#page-top"> KeepBlog </li>
+        <li class="sidebar-nav-item">
+          <a class="js-scroll-trigger" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="{% url 'blogs' %}">Blogs</a>
+        </li>
+        {% if not user.is_authenticated %}
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="{% url 'login' %}">Log In</a>
+          </li>
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="{% url 'signin' %}">Sign In</a>
+          </li>
+        {% else %}
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="{% url 'new-post' %}">New Post</a>
+          </li>
+          <li class="sidebar-nav-item">
+            <a class="js-scroll-trigger" href="{% url 'logout' %}">Logout</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <section class="content-section" id="portfolio">
+        <div class="container">
+            {% if user.is_authenticated %}
+            <div class="content-section-heading">
+               <h3>Welcome {{ user.username }}</h3>
+            </div>
+          {% endif %}
+        {% block content_site%} {% endblock %}
+        </div>
+    </section>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="{% static 'assets/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="{% static 'assets/js/stylish-portfolio.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'user/login/js/login.js' %}"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,57 @@
+{% extends "master.html" %}
+
+{% block content_site %}
+{% load staticfiles %}
+     <div class="content-section-heading text-center">
+              <h3 class="text-secondary mb-0">KeepBlog</h3>
+              <h2 class="mb-5">Recent Blogs</h2>
+     </div>
+     <form method="get" >
+          {% csrf_token %}
+         <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="text"  name="filter" class="form-control" placeholder="Search for..." value={{filter}}>
+                    <input type="submit" value="Go!" class="btn btn-search" type="button">
+                </div>
+              </div>
+         </div>
+     </form>
+    <br>
+    <div class="table-responsive">
+            <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>AUTHOR</th>
+                    <th>TITLE</th>
+                    <th>DESCRIPTION</th>
+                    <th>DATE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in object_list %}
+                <tr>
+                    <td>{{ blog.author }}</td>
+                    <td>{{ blog.title }}</td>
+                    <td>{{ blog.description }}</td>
+                    <td>{{ blog.blog_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

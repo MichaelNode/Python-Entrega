@@ -1,0 +1,12 @@
+.post-content{
+    font-size: 20px    !important;
+    font-weight: bold  !important;
+    font-style: italic !important;
+    color: #999c9f !important;
+    text-align: justify !important;
+}
+
+.pagination {
+    font-size: 22px !important;;
+    font-weight: bold !important;;
+}

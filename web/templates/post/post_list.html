@@ -1,0 +1,50 @@
+{% extends "master.html" %}
+{% block content_site %}
+{% load staticfiles %}
+         <div class="content-section-heading text-center">
+                  <h3 class="text-secondary mb-0">KeepBlog</h3>
+                  <h2 class="mb-5">Recent Post</h2>
+         </div>
+         <form method="get" >
+                 <div class="row">
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <input type="text"  name="filter" class="form-control" placeholder="Search for..." value={{filter}}>
+                        <input type="submit" value="Go!" class="btn btn-search" type="button">
+                    </div>
+                  </div>
+                </div>
+         </form>
+         <br>
+         <div class="row no-gutters">
+            {% for post in object_list %}
+            <div class="col-lg-4">
+                <a class="portfolio-item" href="{% url 'post-details' post.author post.pk %}">
+                    <span class="caption">
+                    <span class="caption-content">
+                      <h2>{{ post.title }}</h2>
+                      <p class="mb-0">{{ post.content }}</p>
+                        <p class="mb-0"><i class="fas fa-user-circle"></i> {{ post.author }}</p>
+                        <p class="mb-0">{{ post.pos_date}}</p>
+                    </span>
+                  </span>
+                  <img class="img-fluid" src="{{ post.image.url }}" alt="">
+                </a>
+            </div>
+             {% endfor %}
+         </div>
+        <br>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+{% endblock %}
