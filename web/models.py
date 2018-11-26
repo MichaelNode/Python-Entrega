@@ -33,7 +33,7 @@ class Blog(models.Model):
 class Post(models.Model):
 
     PUBLISHED  = 'PUB'
-    EDITION = 'EDIT'
+    EDITION = 'EDI'
 
 
     STATUS = (
