@@ -74,7 +74,7 @@ NOTA: se debe crear un super usuario para poder crear un blog y categoría en el
 
 * Correr aplicación:
 	```shell
-	python manage runserver
+	python manage.py runserver
 	```
 
 
@@ -83,9 +83,6 @@ NOTA: se debe crear un super usuario para poder crear un blog y categoría en el
 
 1) Se recomienda realizar registro de un blog y una categoria desde el administrado proporcionado por Django
 
-	```shell
-	npm start
-	```
 
 
 ## API
