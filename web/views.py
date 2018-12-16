@@ -37,6 +37,27 @@ class BlogCreationView(CreateView):
 
     model = Blog
     template_name = 'blog/blog_form.html'
+    form_class = BlogForm
+
+    @method_decorator(login_required)
+    def get(self, request):
+        form = BlogForm()
+        try:
+            blog = Blog.objects.filter(author=request.user).count()
+            return render(request, 'blog/blog_form.html', {'form': form,'blog': blog})
+        except Blog.DoesNotExist:
+            return render(request, 'blog/blog_form.html', {'form': form})
+
+    @method_decorator(login_required)
+    def post(self, request):
+        author = Blog(author=request.user)
+        form = BlogForm(request.POST, instance=author)
+        if form.is_valid():
+            new_blog = form.save()
+            messages.success(request, 'Ad {0} created successfully!'.format(new_blog.title))
+            welcome_url = request.GET.get('next', 'home')
+            return redirect(welcome_url)
+        return render(request, 'blog/blog_form.html', {'form': form})
 
 
 class PostListView(ListView):
@@ -90,12 +111,18 @@ class postCreationView(CreateView):
     @method_decorator(login_required)
     def get(self, request):
         form = PostForm()
-        return render(request, 'post/post_form.html', {'form': form})
+        blog = Blog.objects.filter(author=request.user).count()
+        if blog == 0:
+            url_err = request.GET.get('next', 'new-blog')
+            return redirect(url_err)
+        else:
+            return render(request, 'post/post_form.html', {'form': form})
 
     @method_decorator(login_required)
     def post(self, request):
         try:
-            blog_id = Blog.objects.get(author=request.user)
+            blog_id = Blog.objects.filter(author=request.user).last()
+            print(blog_id)
             new_post = Post(author=request.user, blog_id=blog_id)
             form = PostForm(request.POST, request.FILES, instance=new_post)
             if form.is_valid():

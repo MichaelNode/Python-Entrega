@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.generics import get_object_or_404
 from web.models import Blog, Post,Category
-from api.serializers_user import UserListSerializer, UserSerializer, BlogListSerializer,PostListSerializer,PostSerializer
+from api.serializers_user import UserListSerializer, UserSerializer, BlogListSerializer,PostListSerializer,PostSerializer,BlogSerializer
 from api.permissions import UserPermission,PostPermission
 
 
@@ -59,6 +59,7 @@ class BlogViewSet(ModelViewSet):
 
     queryset = Blog.objects.all()
     filter_backends = [OrderingFilter, SearchFilter, DjangoFilterBackend]
+    permission_classes = [IsAuthenticatedOrReadOnly, PostPermission]
     search_fields = ['author']
     ordering = ['title']
     filter_fields = ['author__username']
@@ -68,7 +69,11 @@ class BlogViewSet(ModelViewSet):
         return self.queryset
 
     def get_serializer_class(self):
-        return BlogListSerializer
+        return BlogListSerializer if self.action == 'list' else BlogSerializer
+
+    def perform_create(self, serializer):
+        if self.request.user.is_authenticated:
+            serializer.save(author=self.request.user)
 
 
 class PostViewSet(ModelViewSet):
@@ -131,7 +136,6 @@ class PostDetailApi(APIView):
         self.check_object_permissions(request, post)
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 
 

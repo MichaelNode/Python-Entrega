@@ -140,3 +140,5 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
+URL_CUSTOM = 'http://localhost:8000/blogs/'
+

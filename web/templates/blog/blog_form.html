@@ -1,0 +1,31 @@
+{% extends "Master.html" %}
+{% block content_site %}
+{% load staticfiles %}
+ <div class="content-section-heading text-center">
+          <h3 class="text-secondary mb-0">KeepBlog</h3>
+          <h2 class="mb-5">New Blog</h2>
+ </div>
+
+<form method="post">
+	{% csrf_token %}
+  <div class="form-row">
+      {% if blog == 0 %}
+      <div class="alert alert-info col-md-12">
+        <strong>Info!</strong> Welcome <strong>{{ user.username }}</strong>, to continue you must create a blog
+      </div>
+      {% endif %}
+      <div class="col-md-12">
+          <label >Title</label>
+	        {{ form.title }}
+      </div>
+      <div class="col-md-12">
+        <label >Description</label>
+        {{ form.description }}
+      </div>
+  </div>
+    <br>
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-info text-center">Save</button>
+    </div>
+</form>
+{% endblock %}

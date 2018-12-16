@@ -10,6 +10,11 @@ class BlogForm(forms.ModelForm):
             'description'
         ]
 
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control', 'required': ''}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'required': ''})
+        }
+
 class PostForm(forms.ModelForm):
 
     class Meta:

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 # Create your models here.
 
@@ -28,7 +29,7 @@ class Blog(models.Model):
         return '{0} ({1})'.format(self.title, self.author)
 
     def get_absolute_url(self):
-        return 'http://localhost:8000/blogs/{0}'.format( self.author)
+        return '{0}{1}'.format(settings.URL_CUSTOM, self.author)
 
 class Post(models.Model):
 

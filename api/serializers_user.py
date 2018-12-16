@@ -53,9 +53,20 @@ class BlogListSerializer(serializers.Serializer):
         return obj.author.username
 
 
-class BlogSerializer(UserListSerializer):
+class BlogSerializer(BlogListSerializer):
 
-    last_modification = serializers.DateField()
+    read_only_fields = ['author']
+
+    def create(self, validated_data):
+        blog = Blog()
+        return self.update(blog, validated_data)
+
+    def update(self, instance, validated_data):
+        instance.author = validated_data.get('author')
+        instance.title = validated_data.get('title')
+        instance.description = validated_data.get('description')
+        instance.save()
+        return instance
 
 
 class PostListSerializer(serializers.Serializer):

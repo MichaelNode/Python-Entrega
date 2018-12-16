@@ -52,6 +52,6 @@ class SignInView(View):
             new_user.save()
             messages.success(request, 'User registered successfully!')
             login_user_in_django(request, new_user)
-            welcome_url = request.GET.get('next', 'home')
+            welcome_url = request.GET.get('next', 'new-blog')
             return redirect(welcome_url)
         return render(request, 'users/signin.html', {'form': form})
